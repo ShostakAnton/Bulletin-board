@@ -11,9 +11,9 @@ class Photo(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        self.image.name = get_path_upload_image(self.image.name)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.image.name = get_path_upload_image(self.image.name)
+    #     super().save(*args, **kwargs)
 
         # if self.image:
         #     img = Image.open(self.image.path)

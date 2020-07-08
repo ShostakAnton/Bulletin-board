@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -15,7 +16,7 @@ class Category(MPTTModel):
         verbose_name="Родитель"
     )
     slug = models.SlugField("url", max_length=50,
-                            unique=True)     # уникальность
+                            unique=True)  # уникальность
 
     def __str__(self):
         return self.name
@@ -23,6 +24,7 @@ class Category(MPTTModel):
     class MPTTMeta:
         order_insertion_by = ['name']
         verbose_name = "Категория"
+        verbose_name_plural = "Категории"
 
 
 class FilterAdvert(models.Model):
@@ -41,7 +43,7 @@ class FilterAdvert(models.Model):
 class DateAdvert(models.Model):
     """Срок для объявления"""
     name = models.CharField("Имя", max_length=50,
-                            unique=True)        # уникальность
+                            unique=True)  # уникальность
     slug = models.SlugField("url", max_length=50, unique=True)
 
     def __str__(self):
@@ -77,3 +79,13 @@ class Advert(models.Model):
     created = models.DateTimeField("Дата создания", auto_now_add=True)
     moderation = models.BooleanField("Модерация", default=False)
     slug = models.SlugField("url", max_length=200, unique=True)
+
+    def __str__(self):
+        return self.subject
+
+    def get_absolute_url(self):
+        return reverse("advert-detail", kwargs={"category": self.category.slug, "slug": self.slug})
+
+    class Meta:
+        verbose_name = "Объявление"
+        verbose_name_plural = "Объявления"
