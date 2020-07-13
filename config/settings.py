@@ -24,7 +24,7 @@ SECRET_KEY = 'at4^opu96ejk+bbn)4bec)cl=fgc2yc=x&i@-$31$jx0^l-yz3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mptt',
+    'corsheaders',
+    'rest_framework',
 
     'backend.callboard',
     'backend.gallery',
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -125,3 +128,19 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.AllowAny',
+    ),
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework_json_api.pagination.PageNumberPagination',
+}
+
+CORS_ORIGIN_ALLOW_ALL = True

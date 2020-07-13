@@ -7,7 +7,7 @@ from .models import Gallery, Photo
 class GalleryAdmin(admin.ModelAdmin):
     """Галерея"""
     list_display = ("name", "created", "id")
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"slug": ("name",)}       # slug автоматически по полю name
     list_filter = ("name", "created")
     search_fields = ("name", "created")
 
@@ -16,6 +16,6 @@ class GalleryAdmin(admin.ModelAdmin):
 class PhotoAdmin(admin.ModelAdmin):
     """Изображения"""
     list_display = ("name", "created", "id")
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"slug": ("name",)}       # slug автоматически по полю name
     list_filter = ("name", "created")
     search_fields = ("name", "created")
