@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 
+from backend.utils.transliteration import transliteration_rus_eng
+
 
 class Category(MPTTModel):
     """Категории объявлений"""
@@ -79,6 +81,11 @@ class Advert(models.Model):
     created = models.DateTimeField("Дата создания", auto_now_add=True)
     moderation = models.BooleanField("Модерация", default=False)
     slug = models.SlugField("url", max_length=200, unique=True)
+
+    def save(self, *args, **kwargs):
+        # TODO Доработать "slug = subject + id"
+        self.slug = transliteration_rus_eng(self.subject) + "_" + str(self.id)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.subject

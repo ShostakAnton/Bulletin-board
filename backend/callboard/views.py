@@ -25,3 +25,29 @@ class AdvertCreate(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Advert.objects.all()
     serializer_class = AdvertCreateSer
+
+
+class UserAdvertList(generics.ListAPIView):
+    """Все объявления пользователя"""
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = AdvertListSer
+
+    def get_queryset(self):  # переоределение queryset
+        return Advert.objects.filter(user=self.request.user)  # обьявление данного пользователя
+
+
+class UserAdvertUpdate(generics.UpdateAPIView):
+    """Редактирование объявления пользователя"""
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = AdvertCreateSer
+
+    def get_queryset(self):
+        return Advert.objects.filter(user=self.request.user)  # обьявление данного пользователя
+
+
+class UserAdvertDelete(generics.DestroyAPIView):
+    """Удаление объявления пользователя"""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Advert.objects.filter(id=self.kwargs.get("pk"), user=self.request.user)
